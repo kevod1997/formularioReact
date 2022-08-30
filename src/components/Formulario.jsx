@@ -8,9 +8,27 @@ const Formulario = () => {
     todoCheck: false,
   });
 
+  const[error, setError] = useState(false)
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const {todoName, todoDescripcion} = todo
+
+    if (!todoDescripcion.trim() || !todoName.trim()){
+      setError(true);
+      return
+    }
+    setError(false);
+
     console.log(todo);
+
+    setTodo({
+      todoName: "",
+      todoDescripcion: "",
+      todoEstado: "pendiente",
+      todoCheck: false,
+    });
   };
 
   const handleChange = e => {
@@ -28,9 +46,19 @@ const Formulario = () => {
   // }));
  };
 
+ const PintarError = () => (
+  <div className="alert alert-danger">Campos Obligatorios</div>
+ )
+
   return (
     <>
       <h2>No controlado</h2>
+
+      {
+        error ? <PintarError /> : null
+        // error && <PintarError/>
+      }
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
